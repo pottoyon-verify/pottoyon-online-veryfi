@@ -163,7 +163,7 @@
 </div>
 
 <script>
-    const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/15WggkLb0XCAfVpPnoGnecNKWp5VtPwJSIJi_pTm9ljM/gviz/tq?tqx=out:csv';
+    const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/1ni-dkOAYaCxye6wrQDObZwqys9FzTaa36Dq4py5afJE/gviz/tq?tqx=out:csv';
 
     function normalizeText(text) {
         if (!text) return '';
@@ -208,18 +208,15 @@
             
             const rows = parseCSV(csvText);
             
-            // A কলামের (সনদ নম্বর) সাথে মেলানো হচ্ছে
             const matchRow = rows.find(row => row[0] && row[0].trim() === inputVal);
 
             if (matchRow) {
-                // A, B, C, D, E কলামের তথ্য প্রদর্শন
-                document.getElementById('outCertNo').innerText = matchRow[0] || '---'; // A: সনদ নং
-                document.getElementById('outDeadName').innerText = matchRow[1] || '---'; // B: মৃত ব্যক্তির নাম
-                document.getElementById('outDate').innerText = matchRow[2] || '---'; // C: তারিখ
-                document.getElementById('outOffice').innerText = matchRow[3] || '---'; // D: কার্যালয়
-                document.getElementById('outOfficer').innerText = matchRow[4] || '---'; // E: কর্মকর্তা
+                document.getElementById('outCertNo').innerText = matchRow[0] || '---';
+                document.getElementById('outDeadName').innerText = matchRow[1] || '---';
+                document.getElementById('outDate').innerText = matchRow[2] || '---';
+                document.getElementById('outOffice').innerText = matchRow[3] || '---';
+                document.getElementById('outOfficer').innerText = matchRow[4] || '---';
 
-                // F কলাম: ওয়ারিশ তালিকা পার্সিং
                 const rawWarish = matchRow[5] || ''; 
                 const warishArray = rawWarish.split(';');
 
