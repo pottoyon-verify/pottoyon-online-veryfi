@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অনলাইন সনদ যাচাই</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f4f4f4; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 420px; background: #ffffff; border: 1px solid #ccc; position: relative; min-height: 100vh; }
+
+        .top-banner { background-color: #7bc043; height: 32px; overflow: hidden; position: relative; display: flex; align-items: center; }
+        .running-line { white-space: nowrap; color: #4a154b; font-weight: bold; font-size: 13px; position: absolute; animation: marquee 12s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        .logo-area { text-align: center; padding: 10px 0 6px 0; }
+        .logo-img { width: 95px; height: 95px; object-fit: contain; }
+
+        .nav-section { padding: 0 8px 8px 8px; }
+        .nav-row { display: flex; gap: 4px; margin-bottom: 4px; }
+        .select-box { flex: 1; background-color: #7A288A; color: #ffffff; border: none; padding: 6px 4px; font-size: 11px; outline: none; cursor: pointer; text-align: center; }
+        .select-box option { background: #ffffff; color: #333; }
+        .menu-btn { flex: 1; background-color: #EFEFEF; color: #333; border: 1px solid #ccc; padding: 6px 8px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+
+        .search-container { display: flex; margin-top: 4px; height: 30px; }
+        .search-input { flex: 1; padding: 4px 8px; border: 1px solid #ccc; border-right: none; font-size: 11px; color: #333; outline: none; }
+        .search-btn { background-color: #7bc043; color: #ffffff; padding: 0 10px; font-weight: bold; font-size: 11px; border: none; cursor: pointer; }
+
+        .header-bar { background-color: #7bc043; color: #7A288A; text-align: center; padding: 6px; font-size: 15px; font-weight: bold; margin-top: 5px; }
+
+        .content-body { padding: 12px; }
+        .form-label { font-size: 13px; font-weight: bold; color: #222; margin-bottom: 6px; }
+        .input-group { display: flex; margin-bottom: 12px; height: 34px; }
+        .cert-input { flex: 1; padding: 6px 10px; border: 1px solid #7A288A; border-right: none; border-radius: 2px 0 0 2px; font-size: 13px; outline: none; }
+        .verify-btn { background-color: #7A288A; color: #ffffff; border: none; padding: 0 12px; border-radius: 0 2px 2px 0; font-weight: bold; font-size: 12px; cursor: pointer; }
+
+        .status-verified { font-size: 15px; font-weight: bold; color: #15803d; margin-bottom: 8px; animation: blinker 1.2s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .details-text { font-size: 13px; line-height: 1.6; color: #222; margin-bottom: 10px; }
+        .list-heading { font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #222; }
+
+        .result-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        .result-table th, .result-table td { border: 1px solid #777; padding: 6px 8px; font-size: 12px; text-align: left; }
+        .result-table th { font-weight: bold; background: #f9f9f9; }
+
+        .error-msg { color: #dc2626; background-color: #fee2e2; border: 1px solid #f87171; padding: 10px; font-size: 13px; font-weight: bold; border-radius: 4px; display: none; margin-bottom: 10px; text-align: center; }
+        #resultBox { display: none; }
+
+        .footer-banner { background-color: #7bc043; color: #7A288A; text-align: center; padding: 6px; font-size: 15px; font-weight: bold; }
+        .footer-body { padding: 10px; }
+        .footer-msg { font-size: 11px; color: #333; margin-bottom: 8px; }
+        .footer-links-grid { display: flex; justify-content: space-between; border-top: 1px solid #ddd; padding-top: 6px; font-size: 11px; color: #222; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-banner">
+        <div class="running-line">অনলাইন সনদ যাচাইকরণ পোর্টালে আপনাকে স্বাগতম • নির্ভুল ও দ্রুত সেবা গ্রহণ করুন •</div>
+    </div>
+
+    <div class="logo-area">
+        <img src="https://prottoyon.gov.bd/images/logo.png" alt="প্রত্যয়ন লোগো" class="logo-img" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg'">
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-row">
+            <select class="select-box">
+                <option value=""> শেরপুর জেলা / উপজেলা ▾</option>
+                <option value="শেরপুর সদর">শেরপুর সদর</option>
+                <option value="নকলা">নকলা</option>
+                <option value="নালীতাবাড়ী">নালীতাবাড়ী</option>
+                <option value="শ্রীবরদী">শ্রীবরদী</option>
+                <option value="ঝিনাইগাতী">ঝিনাইগাতী</option>
+            </select>
+
+            <select class="select-box">
+                <option value=""> শেরপুরের সকল পৌরসভা ▾</option>
+                <option value="শেরপুর পৌরসভা">শেরপুর পৌরসভা</option>
+                <option value="নকলা পৌরসভা">নকলা পৌরসভা</option>
+                <option value="নালীতাবাড়ী পৌরসভা">নালীতাবাড়ী পৌরসভা</option>
+                <option value="শ্রীবরদী পৌরসভা">শ্রীবরদী পৌরসভা</option>
+            </select>
+        </div>
+
+        <div class="nav-row">
+            <select class="select-box">
+                <option value=""> শেরপুরের সকল ইউনিয়ন (৫২টি) ▾</option>
+                <optgroup label="-- শেরপুর সদর (১৪টি) --">
+                    <option value="কামারেরচর">কামারেরচর</option>
+                    <option value="চরপক্ষীমারী">চরপক্ষীমারী</option>
+                    <option value="বলাশেরচর">বলাশেরচর</option>
+                    <option value="লছমনপুর">লছমনপুর</option>
+                    <option value="চরশেরপুর">চরশেরপুর</option>
+                    <option value="বটতলা">বটতলা</option>
+                    <option value="চরমোকারিয়া">চরমোকারিয়া</option>
+                    <option value="বাজিতখিলা">বাজিতখিলা</option>
+                    <option value="গড়জরিপা">গড়জরিপা</option>
+                    <option value="ধলা">ধলা</option>
+                    <option value="রৌহা">রৌহা</option>
+                    <option value="কামারিয়া">কামারিয়া</option>
+                    <option value="কাকিলকুড়া">কাকিলকুড়া</option>
+                    <option value="বেতমারী গোয়ালগ্রাম">বেতমারী গোয়ালগ্রাম</option>
+                </optgroup>
+            </select>
+
+            <div class="menu-btn" onclick="alert('মেনু ড্রয়ার অপশন')">
+                <span>মেনু নির্বাচন করুন</span>
+                <span>☰</span>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="siteSearchInput" class="search-input" placeholder="ওয়েবসাইটে অনুসন্ধান করুন .......">
+            <button class="search-btn" onclick="alert('অনুসন্ধান করা হচ্ছে...')">🔍 অনুসন্ধান</button>
+        </div>
+    </div>
+
+    <div class="header-bar">সনদ যাচাই করুন</div>
+
+    <div class="content-body">
+        <div class="form-label">আবেদন আইডি নং / সনদ নং <span style="color:red">*</span></div>
+        
+        <div class="input-group">
+            <input type="text" id="certInput" class="cert-input" placeholder="সনদ নম্বর টাইপ করুন...">
+            <button class="verify-btn" onclick="searchCertificate()">✓ যাচাই কৃত</button>
+        </div>
+
+        <div id="errorBox" class="error-msg">❌ সঠিক আবেদন/সনদ নং প্রদান করুন! কোনো তথ্য পাওয়া যায়নি।</div>
+
+        <div id="resultBox">
+            <div class="status-verified">যাচাই করন সম্পুর্ন হয়েছে</div>
+
+            <div class="details-text">
+                আবেদন নম্বর/সনদ নং <strong id="outCertNo">---</strong> এর প্রেক্ষিতে<br>
+                মৃত <strong id="outDeadName">---</strong> এর উত্তরাধিকার সনদটি <strong id="outOffice">---</strong> হতে <strong id="outDate">---</strong> তারিখে <strong id="outOfficer">---</strong> কর্তৃক প্রদান করা হয়েছে।
+            </div>
+
+            <div class="list-heading">ওয়ারিশগন এর তালিকা নিম্নরুপঃ</div>
+
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th style="width: 60%;">নাম</th>
+                        <th style="width: 40%;">সম্পর্ক</th>
+                    </tr>
+                </thead>
+                <tbody id="warishTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer-banner">জরুরী প্রয়োজনে</div>
+    <div class="footer-body">
+        <div class="footer-msg">কোনো জিজ্ঞাসা থাকলে আমাদের সাথে যোগাযোগ করতে পারেন।</div>
+        <div class="footer-links-grid">
+            <div>যোগাযোগ<br>জিজ্ঞাসা</div>
+            <div>গোপনীয়তা<br>সতর্কতা</div>
+            <div>প্রয়োজনীয়<br>নীতিমালা</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const sheetCsvUrl = 'https://docs.google.com/spreadsheets/d/15WggkLb0XCAfVpPnoGnecNKWp5VtPwJSIJi_pTm9ljM/gviz/tq?tqx=out:csv';
+
+    function normalizeText(text) {
+        if (!text) return '';
+        return text.toString().replace(/^["'\s]+|["'\s]+$/g, '').trim();
+    }
+
+    function parseCSV(text) {
+        let lines = text.split(/\r\n|\n/);
+        let result = [];
+        for (let line of lines) {
+            if (!line.trim()) continue;
+            let row = [];
+            let insideQuote = false;
+            let entry = '';
+            for (let i = 0; i < line.length; i++) {
+                let char = line[i];
+                if (char === '"') {
+                    insideQuote = !insideQuote;
+                } else if (char === ',' && !insideQuote) {
+                    row.push(normalizeText(entry));
+                    entry = '';
+                } else {
+                    entry += char;
+                }
+            }
+            row.push(normalizeText(entry));
+            result.push(row);
+        }
+        return result;
+    }
+
+    async function searchCertificate() {
+        const inputVal = normalizeText(document.getElementById('certInput').value);
+        const errorBox = document.getElementById('errorBox');
+        const resultBox = document.getElementById('resultBox');
+
+        if (!inputVal) return;
+
+        try {
+            const response = await fetch(sheetCsvUrl + '&nocache=' + new Date().getTime());
+            const csvText = await response.text();
+            
+            const rows = parseCSV(csvText);
+            
+            // A কলামের (সনদ নম্বর) সাথে মেলানো হচ্ছে
+            const matchRow = rows.find(row => row[0] && row[0].trim() === inputVal);
+
+            if (matchRow) {
+                // A, B, C, D, E কলামের তথ্য প্রদর্শন
+                document.getElementById('outCertNo').innerText = matchRow[0] || '---'; // A: সনদ নং
+                document.getElementById('outDeadName').innerText = matchRow[1] || '---'; // B: মৃত ব্যক্তির নাম
+                document.getElementById('outDate').innerText = matchRow[2] || '---'; // C: তারিখ
+                document.getElementById('outOffice').innerText = matchRow[3] || '---'; // D: কার্যালয়
+                document.getElementById('outOfficer').innerText = matchRow[4] || '---'; // E: কর্মকর্তা
+
+                // F কলাম: ওয়ারিশ তালিকা পার্সিং
+                const rawWarish = matchRow[5] || ''; 
+                const warishArray = rawWarish.split(';');
+
+                let tableHtml = '';
+                warishArray.forEach(item => {
+                    const cleanItem = item.trim();
+                    if (cleanItem) {
+                        const lastDashIndex = cleanItem.lastIndexOf('-');
+                        if (lastDashIndex !== -1) {
+                            const name = cleanItem.substring(0, lastDashIndex).trim();
+                            const relation = cleanItem.substring(lastDashIndex + 1).trim();
+                            tableHtml += `<tr><td>${name}</td><td>${relation}</td></tr>`;
+                        } else {
+                            tableHtml += `<tr><td>${cleanItem}</td><td>---</td></tr>`;
+                        }
+                    }
+                });
+
+                document.getElementById('warishTableBody').innerHTML = tableHtml;
+                errorBox.style.display = 'none';
+                resultBox.style.display = 'block';
+            } else {
+                resultBox.style.display = 'none';
+                errorBox.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Data Fetching Error:', error);
+            resultBox.style.display = 'none';
+            errorBox.style.display = 'block';
+        }
+    }
+
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const certParam = urlParams.get('cert');
+        
+        if (certParam) {
+            document.getElementById('certInput').value = decodeURIComponent(certParam).trim();
+            searchCertificate();
+        }
+    };
+</script>
+
+</body>
+</html>
